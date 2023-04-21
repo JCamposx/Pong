@@ -23,6 +23,7 @@ public class BallMovement : MonoBehaviour
 
     public Vector2 Speed = new Vector2(10f, 0f);
     private Rigidbody2D rb;
+    private bool isRunning = false;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +35,14 @@ public class BallMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.velocity = new Vector2(Speed.x, Speed.y);
+        if (isRunning)
+        {
+            rb.velocity = new Vector2(Speed.x, Speed.y);
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collider)
@@ -70,5 +78,15 @@ public class BallMovement : MonoBehaviour
         OnGoal?.Invoke(this, args);
 
         transform.position = new Vector3(0f, 0f, 0f);
+    }
+
+    public void Run()
+    {
+        isRunning = true;
+    }
+
+    public void Stop()
+    {
+        isRunning = false;
     }
 }

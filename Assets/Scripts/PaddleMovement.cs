@@ -5,6 +5,7 @@ using UnityEngine;
 public class PaddleMovement : MonoBehaviour
 {
     public float Speed = 7f;
+    private bool isRunning = false;
 
     // Start is called before the first frame update
     void Start()
@@ -14,13 +15,15 @@ public class PaddleMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isRunning) return;
+
         // Gets values in range [-1, 1], where -1 is going down and 1 is going up
         float verticalMovement = Input.GetAxis("Vertical");
 
         transform.position = new Vector3(
             transform.position.x,
             Mathf.Clamp( // Evaluates that a value is in a specific limit
-                // What is going to be evaluated
+                         // What is going to be evaluated
                 transform.position.y + verticalMovement * Speed * Time.deltaTime,
                 // Limit inf
                 -4f,
@@ -31,5 +34,15 @@ public class PaddleMovement : MonoBehaviour
         );
 
         transform.position += Vector3.up * verticalMovement * Speed * Time.deltaTime;
+    }
+
+    public void Run()
+    {
+        isRunning = true;
+    }
+
+    public void Stop()
+    {
+        isRunning = false;
     }
 }

@@ -9,17 +9,24 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI TextScore1;
     public TextMeshProUGUI TextScore2;
     public BallMovement ball;
+    public PaddleMovement paddle1;
+    public PaddleMovement paddle2;
 
     // Start is called before the first frame update
     void Start()
     {
         // Register a BallMovement observer
         ball.OnGoal += OnGoalDelegate;
+        StartGame();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartGame();
+        }
     }
 
     private void OnGoalDelegate(object sender, EventArgs e)
@@ -36,5 +43,21 @@ public class GameManager : MonoBehaviour
             int score = int.Parse(TextScore2.text);
             TextScore2.text = (score + 1).ToString();
         }
+
+        StopGame();
+    }
+
+    private void StartGame()
+    {
+        ball.Run();
+        paddle1.Run();
+        paddle2.Run();
+    }
+
+    private void StopGame()
+    {
+        ball.Stop();
+        paddle1.Stop();
+        paddle2.Stop();
     }
 }
